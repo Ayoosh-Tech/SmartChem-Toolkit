@@ -75,7 +75,7 @@ The goal of SmartChem Toolkit is to make chemistry easier and more interactive f
 
 ## 🌐 Live Demo
 
-_Add your deployed link here_
+https://ayoosh-tech.github.io/SmartChem-Toolkit/
 
 ---
 
