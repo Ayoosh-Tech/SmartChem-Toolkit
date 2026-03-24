@@ -1,0 +1,451 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartChem Toolkit</title><style>
+body{
+margin:0;
+padding:0;
+font-family:Arial;
+color:white;
+background:url("bg.png") center/cover fixed;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.glass-header{
+width:100%;
+box-sizing:border-box;
+position: relative;
+left:0;
+position: sticky;
+top: 0;
+z-index: 1000;
+display:flex;
+justify-content:center;
+padding:15px;
+font-size:22px;
+background:rgba(30,41,59,0.6);
+backdrop-filter:blur(10px);
+}
+
+/*.tabs{
+display:flex;
+background:#334155;
+}
+
+.tab{
+flex:1;
+padding:14px;
+text-align:center;
+cursor:pointer;
+line-spacing:px;
+}
+
+.tab:hover{
+background:#6366f1;
+}
+
+.active{
+background:#6366f1;
+}*/
+
+.tabs {
+  width:100%
+  box-sizing:border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  font-weight: 500;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: 0.2s;
+}
+
+.tab:hover {
+  color: #6366f1;
+}
+
+.active {
+  color: #6366f1;
+  font-weight: bold;
+}                              
+
+.tab {
+  position: relative;
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background: #6366f1;
+  left: 0;
+  bottom: -3px;
+  transition: 0.3s;
+}
+
+.tab:hover::after {
+  width: 100%;
+}
+
+.active::after {
+  width: 100%;
+}
+
+.divider {
+  color: rgba(255,255,255,0.5);
+}
+.content{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:rgba(30,41,59,0.7);
+padding:20px;
+border-radius:12px;
+margin-bottom:5px;
+margin-top:10px;
+transition:2s;
+line-height:1.5;
+}
+
+.card:hover{
+transform:translateY(-4px)
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px
+}
+
+.hero{
+text-align:center;
+padding:30px;
+background:rgba(30,41,59,0.6);
+border-radius:12px;
+margin-bottom:10px;
+}
+
+input{
+width:95%;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+border:none;
+}
+
+button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+background:#6366f1;
+color:white;
+cursor:pointer;
+}
+
+.result{
+margin-top:10px;
+font-weight:bold;
+}
+.success{
+color:#22c55e;
+}
+
+.error{
+color:#ef4444;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* controls spacing */
+  margin: 8px 0;
+}
+
+.checkbox-row input {
+  width: auto; /* prevents stretching */
+  margin: 0;
+}
+
+.checkbox-row label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.checkbox-row {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+input[type="checkbox"] {
+  accent-color: #6366f1;
+}
+</style>
+</head>
+<body>
+    <header class="glass-header">⚛️ SmartChem Toolkit
+    </header>
+ <!--    <div class="tabs">
+<div class="tab active" onclick="showTab('home',event)">Home</div> -->
+<div class="tabs">
+  <span class="tab active" onclick="showTab('home', event)">Home</span>
+   <span class="divider">|</span>
+<!--      
+    <div class="tab" onclick="showTab('calculator',event)">Calculators</div>
+<div class="tab" onclick="showTab('periodic',event)">Periodic</div>
+<div class="tab" onclick="showTab('history', event)">History-->
+<span class="tab" onclick="showTab('calculator', event)">Calculator</span>
+<span class="divider">|</span>
+
+  <span class="tab" onclick="showTab('periodic', event)">Periodic</span>
+ <span class="divider">|</span>
+
+  <span class="tab" onclick="showTab('history', event)">History</span>
+</div>       
+</div>
+<div class="content" id="content"></div><script>
+function showTab(tab,e){
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+e.target.classList.add('active');
+const c=document.getElementById('content');
+
+if(tab==='home'){
+c.innerHTML=`
+<div class="hero">
+<h1>SmartChem Toolkit</h1>
+<p>Your interactive chemistry assistant</p>
+</div>
+<div class="grid">
+<div class="card" onclick="showTab('calculator',{target:document.querySelectorAll('.tab')[1]})">🧪 Calculators</div>
+<div class="card" onclick="showTab('periodic',{target:document.querySelectorAll('.tab')[2]})">🧬 Periodic Table</div>
+</div>`;
+}
+
+if(tab==='calculator'){
+c.innerHTML=`
+<div class="card">
+<h2>🧪 Molarity Calculator</h2>
+<input id="moles" placeholder="Moles (n)">
+<input id="volume" placeholder="Volume (L)">
+<div class="checkbox-row">
+  <input type="checkbox" id="steps">
+  <label for="steps">Show Steps</label>
+</div>
+<button onclick="calcM()">Calculate</button>
+<p id="mres" class="result"></p>
+
+</div>
+
+<div class="card">
+<h2>⚗️ pH Calculator</h2>
+<input id="hconc" placeholder="[H+] concentration">
+<div class="checkbox-row">
+  <input type="checkbox" id="stepsPH">
+  <label for="stepsPH">Show Steps</label>
+</div>
+<button onclick="calcPH()">Calculate</button>
+<p id="phres" class="result"></p>
+</div>
+
+<div class="card">
+<h2>💧 Dilution Calculator</h2>
+<input id="c1" placeholder="C1">
+<input id="v1" placeholder="V1">
+<input id="v2" placeholder="V2">
+<div class="checkbox-row">
+  <input type="checkbox" id="stepsD">
+  <label for="stepsD">Show Steps</label>
+</div>
+<button onclick="calcD()">Calculate</button>
+<p id="dres" class="result"></p>
+</div>
+
+<div class="card">
+<h2>🌡️ Gas Law(PV = nRT)</h2>
+<input id="P" placeholder="Pressure">
+<input id="V" placeholder="Volume">
+<input id="n" placeholder="Moles">
+<div class="checkbox-row">
+  <input type="checkbox" id="stepsG">
+  <label for="stepsG">Show Steps</label>
+</div>
+<button onclick="calcG()">Solve for T</button>
+<p id="gres" class="result"></p>
+</div>
+`;
+}
+
+if (tab === 'history') {
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    content.innerHTML = `
+      <div class="card">
+        <h2>📜 History</h2>
+        ${history.length === 0 ? "<p>No history yet</p>" : ""}
+        ${history.map(h => `<div class='history-item'>${h}</div>`).join('')}
+        <button onclick="clearHistory()">Clear History</button>
+        </div>
+    `;
+  }
+
+
+if(tab==='periodic'){
+c.innerHTML=`
+<div class="card">
+<h2>Periodic Table</h2>
+<input id="el" placeholder="Enter element (e.g. oxygen)">
+<button onclick="lookup()">Search</button>
+<p id="eres" class="result"></p>
+</div>
+`;
+}
+}
+
+
+function saveHistory(text) {
+  let history = JSON.parse(localStorage.getItem("history")) || [];
+  history.unshift(text);
+  localStorage.setItem("history", JSON.stringify(history));
+}
+
+  function clearHistory() {
+  localStorage.removeItem("history");
+  showTab('history', { target: document.querySelectorAll('.tab')[3] });
+}
+
+
+// Calculators
+function calcM(){
+const m=document.getElementById('moles').value;
+const v=document.getElementById('volume').value;
+const show=document.getElementById('steps').checked;
+const el=document.getElementById('mres');
+if(!m||!v||v==0){el.className='result error';
+el.innerText='Invalid';
+return;
+}
+const r=m/v;
+el.className='result success';
+if(show){
+el.innerHTML=`M=n/V<br>M=${m}/${v}<br>M=${r.toFixed(2)}`;
+}
+else{
+el.innerHTML=`M=${r.toFixed(2)} mol/L`;
+}
+
+saveHistory(`Molarity: ${r.toFixed(2)} mol/L  (${new Date().toLocaleTimeString()})`);
+} 
+
+
+function calcPH(){
+const h=document.getElementById('hconc').value;
+const show=document.getElementById('stepsPH').checked;
+const el=document.getElementById('phres');
+if(!h||h<=0){el.className='result error';
+el.innerText='Invalid';
+return;
+}
+const ph=-Math.log10(h);
+el.className='result success';
+if(show){
+el.innerHTML=`pH=-log[H+]<br>pH=${ph.toFixed(2)}`;
+}
+else{
+el.innerHTML=`pH=${ph.toFixed(2)}`;
+}
+
+saveHistory(`pH: ${ph.toFixed(2)}  (${new Date().toLocaleTimeString()})`);
+}
+
+function calcD(){
+const c1=document.getElementById('c1').value;
+const v1=document.getElementById('v1').value;
+const v2=document.getElementById('v2').value;
+const show=document.getElementById('stepsD').checked;
+const el=document.getElementById('dres');
+if(!c1||!v1||!v2||v2==0){el.className='result error';
+el.innerText='Invalid';
+return;
+}
+const c2=(c1*v1)/v2;
+el.className='result success';
+if(show){
+el.innerHTML=`C1V1=C2V2<br>C2=(${c1}×${v1})/${v2}<br>C2=${c2.toFixed(2)}`;
+}
+else{
+el.innerHTML=`C2=${c2.toFixed(2)}`;
+}
+
+saveHistory(`Dilution: ${c2.toFixed(2)}  (${new Date().toLocaleTimeString()})`);
+}
+
+function calcG(){
+const P=document.getElementById('P').value;
+const V=document.getElementById('V').value;
+const n=document.getElementById('n').value;
+const show=document.getElementById('stepsG').checked;
+const el=document.getElementById('gres');
+const R=0.082;
+if(!P||!V||!n){
+el.className='result error';
+el.innerText='Invalid';
+return;
+}
+const T=(P*V)/(n*R);
+el.className='result success';
+if(show){el.innerHTML=`PV=nRT<br>T=(PV)/(nR)<br>T=${T.toFixed(2)}K`;
+}
+else{
+el.innerHTML=`T=${T.toFixed(2)}K`;
+}
+
+saveHistory(`Gas Temp: ${T.toFixed(2)} K (${new Date().toLocaleTimeString()})`);
+
+}
+
+// Periodic Table Data
+const elements={
+hydrogen:{symbol:'H',num:1,mass:1.008},helium:{symbol:'He',num:2,mass:4.0026},lithium:{symbol:'Li',num:3,mass:6.94},beryllium:{symbol:'Be',num:4,mass:9.01},boron:{symbol:'B',num:5,mass:10.81},carbon:{symbol:'C',num:6,mass:12.01},nitrogen:{symbol:'N',num:7,mass:14.01},oxygen:{symbol:'O',num:8,mass:16.00},fluorine:{symbol:'F',num:9,mass:19.00},neon:{symbol:'Ne',num:10,mass:20.18},sodium:{symbol:'Na',num:11,mass:22.99},magnesium:{symbol:'Mg',num:12,mass:24.31},aluminum:{symbol:'Al',num:13,mass:26.98},silicon:{symbol:'Si',num:14,mass:28.09},phosphorus:{symbol:'P',num:15,mass:30.97},sulfur:{symbol:'S',num:16,mass:32.06},chlorine:{symbol:'Cl',num:17,mass:35.45},argon:{symbol:'Ar',num:18,mass:39.95},potassium:{symbol:'K',num:19,mass:39.10},calcium:{symbol:'Ca',num:20,mass:40.08}
+};
+
+function lookup(){
+const input=document.getElementById('el').value.trim().toLowerCase();
+const el=document.getElementById('eres');
+
+if(!input){
+el.className='result error';
+el.innerText='Please enter an element name';
+return;
+}
+
+if(!elements[input]){
+el.className='result error';
+el.innerText='Element not found. Try e.g. oxygen';
+return;
+}
+
+const d=elements[input];
+el.className='result success';
+el.innerHTML=`Name: ${input}<br>Symbol: ${d.symbol}<br>Atomic Number: ${d.num}<br>Atomic Mass: ${d.mass}`;
+}
+
+showTab('home',{target:document.querySelector('.tab')});
+</script>
+</body>
+</html>
