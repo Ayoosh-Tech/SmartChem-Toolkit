@@ -1,5 +1,3 @@
-# SmartChem-Toolkit
-SmartChem Toolkit is a web-based application that helps students solve and understand chemistry problems using interactive calculators, step-by-step explanations, and a periodic table lookup feature.
 # ⚛️ SmartChem Toolkit
 
 SmartChem Toolkit is a web-based application designed to help students solve and understand chemistry problems through interactive tools and step-by-step explanations.
@@ -61,7 +59,17 @@ The goal of SmartChem Toolkit is to make chemistry easier and more interactive f
 
 ## 📸 Preview
 
-_Add screenshots of your app here_
+### 🏠 Home
+<img src="./home.jpg" width="600"/>
+
+### 🧪 Calculators
+<img src="./screenshots/calculator.jpg" width="600"/>
+
+### 🧬 Periodic Table
+<img src="./screenshots/periodic.png" width="600"/>
+
+### 📜 History
+<img src="./screenshots/history.png" width="600"/>
 
 ---
 
@@ -73,7 +81,7 @@ _Add your deployed link here_
 
 ## 👤 Author
 
-Built by **Aishat Ize**
+Built by **Aishat Ize (Ayoosh-Tech)** 
 
 ---
 
