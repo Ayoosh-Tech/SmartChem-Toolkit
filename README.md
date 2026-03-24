@@ -66,10 +66,10 @@ The goal of SmartChem Toolkit is to make chemistry easier and more interactive f
 <img src="./calculator.jpg" width="600"/>
 
 ### 🧬 Periodic Table
-<img src="./periodic.png" width="600"/>
+<img src="./periodic.jpg" width="600"/>
 
 ### 📜 History
-<img src="./history.png" width="600"/>
+<img src="./history.jpg" width="600"/>
 
 ---
 
